@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
@@ -61,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent appIntent = new Intent(LoginActivity.this, AppActivity.class);
                 appIntent.putExtra("hello", 1);
                 LoginActivity.this.startActivity(appIntent);
+                finish();
             }
         });
 
@@ -132,14 +134,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /*loginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
-        });*/
+        });
     }
 
     private void updateUiWithUser(LoggedInUserView model) {

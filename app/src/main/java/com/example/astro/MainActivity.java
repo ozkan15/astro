@@ -1,11 +1,17 @@
 package com.example.astro;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.AttributeSet;
+import android.view.View;
 
 import com.example.astro.ui.login.LoginActivity;
 import com.example.astro.ui.login.RegisterActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -17,25 +23,40 @@ import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        Intent registerIntent = new Intent(MainActivity.this, LoginActivity.class);
-        registerIntent.putExtra("hello", 1);
-        MainActivity.this.startActivity(registerIntent);
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        /*AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.registerFragment, R.id.loginFragment)
-                .build();*/
-        /*NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        /*NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(null, navController);*/
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseAuth appAuth = FirebaseAuth.getInstance();
+        UserInfo user = appAuth.getCurrentUser();
+
+        if (user == null) {
+            Intent registerIntent = new Intent(MainActivity.this, WelcomeActivity.class);
+            registerIntent.putExtra("hello", 1);
+            MainActivity.this.startActivity(registerIntent);
+            finish();
+        } else {
+            Intent appIntent = new Intent(MainActivity.this, AppActivity.class);
+            appIntent.putExtra("hello", 1);
+            MainActivity.this.startActivity(appIntent);
+            finish();
+        }
+
+        /*FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef;
         myRef = database.getReference("users");
-        myRef.setValue("Hello world");
+        myRef.setValue("Hello");
+
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        };
+        Handler handler = new Handler();
+        handler.postDelayed(runnable, 2000);*/
     }
 }
