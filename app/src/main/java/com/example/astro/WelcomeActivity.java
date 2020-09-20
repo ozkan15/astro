@@ -26,6 +26,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent signinIntent = new Intent(WelcomeActivity.this, LoginActivity.class);
                 WelcomeActivity.this.startActivity(signinIntent);
+                finish();
             }
         });
 
@@ -34,6 +35,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent signupIntent = new Intent(WelcomeActivity.this, RegisterActivity.class);
                 WelcomeActivity.this.startActivity(signupIntent);
+                finish();
             }
         });
     }

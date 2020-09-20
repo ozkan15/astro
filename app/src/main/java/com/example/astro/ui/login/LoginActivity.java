@@ -56,17 +56,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent appIntent = new Intent(LoginActivity.this, AppActivity.class);
-                appIntent.putExtra("hello", 1);
-                LoginActivity.this.startActivity(appIntent);
-                finish();
-            }
-        });
-
-
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
             public void onChanged(@Nullable LoginFormState loginFormState) {
@@ -95,11 +84,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
+                    finish();
                 }
                 setResult(Activity.RESULT_OK);
 
                 //Complete and destroy login activity once successful
-                finish();
+
             }
         });
 
@@ -145,9 +135,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        Intent appIntent = new Intent(LoginActivity.this, AppActivity.class);
+        appIntent.putExtra("hello", 1);
+        LoginActivity.this.startActivity(appIntent);
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
